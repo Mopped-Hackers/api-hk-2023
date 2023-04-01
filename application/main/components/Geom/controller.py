@@ -57,10 +57,12 @@ def minus(geom_fid, db):
         db.commit()
 
 
-def search_all(db, category):
+def search_all(db, category, vote):
     if category == None or category == "all":
         category = get_categories(db)
-    result = (
+    
+    if vote:
+        result = (
         db.query(
             models.Aminity.fid,
             models.Aminity.aminity,
@@ -70,10 +72,27 @@ def search_all(db, category):
             models.Aminity.type,
             models.Aminity.addressline,
             models.Aminity.info,
+            models.Aminity.build,
         )
-        .filter(models.Aminity.aminity.in_(category))
+        .filter(and_(models.Aminity.aminity.in_(category), models.Aminity.build == 0))
         .all()
     )
+    else:
+        result = (
+            db.query(
+                models.Aminity.fid,
+                models.Aminity.aminity,
+                models.Aminity.lat,
+                models.Aminity.lon,
+                models.Aminity.name,
+                models.Aminity.type,
+                models.Aminity.addressline,
+                models.Aminity.info,
+                models.Aminity.build,
+            )
+            .filter(models.Aminity.aminity.in_(category))
+            .all()
+        )
 
     points = [transform_point_for_fe(r) for r in result]
     return points
@@ -86,12 +105,13 @@ def transform_point_for_fe(x):
         "properties": {
             "fid": r[0],
             "aminity": r[1],
-            "lat": r[1],
-            "lon": r[2],
-            "name": r[3],
-            "type": r[4],
-            "addressline": r[5],
-            "info": r[6],
+            "lat": r[2],
+            "lon": r[3],
+            "name": r[4],
+            "type": r[5],
+            "addressline": r[6],
+            "info": r[7],
+            "build": r[8]
         },
         "geometry": {"type": "Point", "coordinates": [r[2], r[3]]},
     }
@@ -119,15 +139,15 @@ def search(db, lat, lon, radius, category):
     center_point = "POINT({lon} {lat})".format(lat=lat, lon=lon)
     result = (
         db.query(
-            models.Aminity.fid,
-            models.Aminity.aminity,
-            models.Aminity.lat,
-            models.Aminity.lon,
-            models.Aminity.name,
-            models.Aminity.type,
-            models.Aminity.addressline,
-            models.Aminity.info,
-            models.Aminity.build,
+                models.Aminity.fid,
+                models.Aminity.aminity,
+                models.Aminity.lat,
+                models.Aminity.lon,
+                models.Aminity.name,
+                models.Aminity.type,
+                models.Aminity.addressline,
+                models.Aminity.info,
+                models.Aminity.build,
         )
         .filter(
             and_(
