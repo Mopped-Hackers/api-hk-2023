@@ -76,7 +76,6 @@ def search_all(db, category):
     )
 
     points = [transform_point_for_fe(r) for r in result]
-
     return points
 
 
@@ -84,7 +83,17 @@ def transform_point_for_fe(x):
     r = x
     new = {
         "type": "Feature",
-        "properties": r,
+        "properties":  {
+            "fid" : r[0],
+            "aminity" : r[1],
+            "lat" : r[1],
+            "lon" : r[2],
+            "name" : r[3],
+            "type" : r[4],
+            "addressline" : r[5],
+            "info" : r[6],
+
+        },
         "geometry": {"type": "Point", "coordinates": [r[2], r[3]]},
     }
     return new
@@ -94,7 +103,6 @@ def find_missing(result, category):
     response = {"points": [], "build": [], "missing": []}
     for r in result:
         r = transform_point_for_fe(r)
-
         response["points"].append(r)
 
         if not r["properties"]["aminity"] in response["build"]:
