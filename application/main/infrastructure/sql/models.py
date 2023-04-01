@@ -19,3 +19,10 @@ class Aminity(Base):
     type = Column(TEXT)
     info = Column(JSONB)
     geom = Column(Geometry('POINT'))
+
+class Score(Base):
+    __tablename__ = 'score'
+    id = Column(Integer, primary_key=True)
+    geom_id  = Column(TEXT)
+    plus = Column(Integer)
+    minus = Column(Integer)

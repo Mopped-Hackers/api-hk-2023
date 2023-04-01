@@ -33,6 +33,39 @@ def add(point, db):
     db.add(new_geom)   
     db.commit()
 
+def score(geom_fid, db):
+    return db.query(models.Score).filter(models.Score.geom_id == geom_fid).first()
+
+def plus(geom_fid, db):
+    g = db.query(models.Score).filter(models.Score.geom_id == geom_fid).all()
+    if g:
+        db.query(models.Score).filter(models.Score.geom_id == geom_fid).update({'plus': models.Score.plus + 1})
+        db.commit()
+    else:
+        score = models.Score(
+                    geom_id = geom_fid,
+                    plus = 1,
+                    minus = 0
+                    )
+
+        db.add(score)   
+        db.commit()
+
+def minus(geom_fid, db):
+    g = db.query(models.Score).filter(models.Score.geom_id == geom_fid).all()
+    if g:
+        db.query(models.Score).filter(models.Score.geom_id == geom_fid).update({'plus': models.Score.minus + 1})
+        db.commit()
+    else:
+        score = models.Score(
+                    geom_id = geom_fid,
+                    plus = 0,
+                    minus = 1
+                    )
+
+        db.add(score)   
+        db.commit()
+
 def search_all(db, category):
     if category == None or category == "all":
         category = get_categories(db)
