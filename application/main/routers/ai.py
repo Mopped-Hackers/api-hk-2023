@@ -1,5 +1,5 @@
 from fastapi.routing import APIRouter
-from fastapi import Response, Request, HTTPException, Header
+from fastapi import Response, Request, HTTPException, Header,Depends
 
 from pydantic import BaseModel, Field
 from typing import List, Union
@@ -10,8 +10,7 @@ from application.main.components.Ai import controller as AI_controller
 from application.main.routers.models import AI_input_1
 from application.main.routers import validation
 from application.main.infrastructure.sql.database import SessionLocal
-
-
+from sqlalchemy.orm import Session
 def get_db():
     db = SessionLocal()
     try:

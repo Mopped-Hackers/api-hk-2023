@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from application.main.config import settings
 
 SQLALCHEMY_DATABASE_URL = settings.SQL_STRING
-
+print(SQLALCHEMY_DATABASE_URL)
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = scoped_session(
     sessionmaker(autocommit=False, autoflush=False, bind=engine)
