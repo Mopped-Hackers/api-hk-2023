@@ -85,7 +85,7 @@ def transform_point_for_fe(x):
     new = {
         "type": "Feature",
         "properties": r,
-        "geometry": {"type": "Point", "coordinates": [r["lon"], r["lat"]]},
+        "geometry": {"type": "Point", "coordinates": [r[2], r[3]]},
     }
     return new
 
@@ -120,7 +120,7 @@ def search(db, lat, lon, radius, category):
             models.Aminity.type,
             models.Aminity.addressline,
             models.Aminity.info,
-            models.Aminity.build
+            models.Aminity.build,
         )
         .filter(
             and_(
@@ -156,9 +156,5 @@ def count_by_category(db):
     )
     output = []
     for r in result:
-        output.append(
-            {
-                r[0] : r[1]
-            }
-        )
+        output.append({r[0]: r[1]})
     return output
