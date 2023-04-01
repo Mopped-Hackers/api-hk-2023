@@ -81,7 +81,7 @@ def search_all(db, category):
 
 
 def transform_point_for_fe(x):
-    r = dict(x)
+    r = x
     new = {
         "type": "Feature",
         "properties": r,
