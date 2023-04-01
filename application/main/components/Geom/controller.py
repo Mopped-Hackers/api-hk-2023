@@ -60,7 +60,6 @@ def minus(geom_fid, db):
 def search_all(db, category):
     if category == None or category == "all":
         category = get_categories(db)
-    print(category)
     result = (
         db.query(
             models.Aminity.fid,
@@ -144,7 +143,7 @@ def search(db, lat, lon, radius, category):
 
 def get_categories(db):
     result = db.query(models.Aminity.aminity).distinct(models.Aminity.aminity).all()
-    result = [r["aminity"] for r in result]
+    result = [r[0] for r in result]
     return result
 
 
