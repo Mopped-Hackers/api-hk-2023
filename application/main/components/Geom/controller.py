@@ -113,7 +113,7 @@ def transform_point_for_fe(x):
             "info": r[7],
             "build": r[8]
         },
-        "geometry": {"type": "Point", "coordinates": [r[2], r[3]]},
+        "geometry": {"type": "Point", "coordinates": [r[3], r[2]]},
     }
     return new
 
