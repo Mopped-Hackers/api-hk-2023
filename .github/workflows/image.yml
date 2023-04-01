@@ -9,6 +9,6 @@ jobs:
       #dockerfile: MyDockerFile   #optional - path to dockerfile - default "Dockerfile"
       #context: ./my-folder/      #optional - default "."
      # target: production         #optional
-      tags: ghcr.io/mopped-hackers/be-api-hk23
+      tags: ghcr.io/mopped-hackers/be-api-hk23:latest
     secrets:
       access_token: ${{ secrets.GITHUB_TOKEN }}
