@@ -18,6 +18,7 @@ class Aminity(Base):
     addressline = Column(TEXT)
     type = Column(TEXT)
     info = Column(JSONB)
+    build = Column(Integer)
     geom = Column(Geometry('POINT'))
 
 class Score(Base):

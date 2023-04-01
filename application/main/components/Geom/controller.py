@@ -17,6 +17,7 @@ def add(point, db):
         addressline=point.addressline,
         type=point.type,
         info=point.info,
+        build=0,
         geom=f"POINT({point.lon} {point.lat})",
     )
 
@@ -120,6 +121,7 @@ def search(db, lat, lon, radius, category):
             models.Aminity.type,
             models.Aminity.addressline,
             models.Aminity.info,
+            models.Aminity.build
         )
         .filter(
             and_(
