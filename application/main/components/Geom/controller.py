@@ -5,17 +5,8 @@ from application.main.infrastructure.sql import models
 import json
 from sqlalchemy.sql import text
 from geoalchemy2.types import Geography
-from sqlalchemy import or_, and_,distinct
+from sqlalchemy import or_, and_,distinct,func
 
-
-def transform_point_for_fe(x):
-    r = dict(x)
-    new = {
-        "type": "Feature",
-        "properties": r,
-        "geometry": {"type": "Point", "coordinates": [r["lon"], r["lat"]]},
-    }
-    return new
 
 def add(point, db):
     new_geom = models.Aminity(
@@ -91,6 +82,35 @@ def search_all(db, category):
 
     return points
 
+
+def transform_point_for_fe(x):
+    r = dict(x)
+    new = {
+        "type": "Feature",
+        "properties": r,
+        "geometry": {"type": "Point", "coordinates": [r["lon"], r["lat"]]},
+    }
+    return new
+
+def find_missing(result,category):
+    response = {
+        "points" : [],
+        "build" : [],
+        "missing"  :[]
+    }
+    for r in result:
+        r = transform_point_for_fe(r)
+        
+        response['points'].append(r)
+        
+        if not r['properties']['aminity'] in response['build']:
+            response['build'].append(r['properties']['aminity'])
+        
+    for c in category:
+        if c not in response['build']:
+            response['missing'].append(c)
+    return response
+
 def search(db, lat, lon, radius, category):
     if category == None or category == "all":
         category = get_categories(db)
@@ -120,7 +140,8 @@ def search(db, lat, lon, radius, category):
         .all()
     )
 
-    points = [transform_point_for_fe(r) for r in result]
+    # points = [transform_point_for_fe(r) for r in result]
+    points = find_missing(result,get_categories(db))
 
     return points
 
@@ -128,4 +149,11 @@ def get_categories(db):
 
     result = db.query(models.Aminity.aminity).distinct(models.Aminity.aminity).all()
     result = [r['aminity'] for r in result]
+    return result
+
+def count_by_category(db):
+
+    result = (
+        db.query(models.Aminity.aminity, func.count()).group_by(models.Aminity.aminity).all()
+    )
     return result

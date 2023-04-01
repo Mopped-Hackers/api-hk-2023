@@ -62,3 +62,8 @@ async def geom_categories(db: Session = Depends(get_db)):
     response = Geom_controller.get_categories(db)
     return response
     
+@router.get("/count")
+async def geom_categories(db: Session = Depends(get_db)):
+    response = Geom_controller.count_by_category(db)
+    return response
+    
