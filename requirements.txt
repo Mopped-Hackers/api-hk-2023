@@ -74,6 +74,3 @@ urllib3==1.26.15
 uvicorn==0.21.1
 wcwidth==0.2.6
 zipp==3.15.0
-uvicorn
-pandas
-pyyaml

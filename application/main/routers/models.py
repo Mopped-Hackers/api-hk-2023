@@ -13,6 +13,7 @@ class AI_input_1(BaseModel):
     limit: int = Field(default=5, gt=0, description="Default_2")
     similar: bool = Field(default=1, description="Default_3")
 
+
 class DefaultGeom(BaseModel):
     fid: str = Field(default="x", title="Default_1")
     aminity: str = Field(default="x", title="Default_2")

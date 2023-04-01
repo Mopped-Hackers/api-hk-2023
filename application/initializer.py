@@ -28,13 +28,11 @@ class IncludeAPIRouter(object):
 
         router.include_router(ai, prefix="/ai", tags=["ai route"])
 
-
         # route 3 -> /geom
         # ------------------------
         from application.main.routers.geom import router as geom
 
         router.include_router(geom, prefix="/geom", tags=["geom route"])
-
 
         return router
 
