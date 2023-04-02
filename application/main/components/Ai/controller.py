@@ -77,5 +77,5 @@ def predict(body):
 
     return {
         "points" : predicted_aminities,
-        "score" : new_score
+        "score" : round(new_score,4)
     }
