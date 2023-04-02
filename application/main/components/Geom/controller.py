@@ -44,7 +44,7 @@ def score(geom_fid, db):
 
 def minus(geom_fid, db):
     g = db.query(models.Score).filter(models.Score.geom_id == geom_fid).all()
-    if g:
+    if len(g) != 0 :
         db.query(models.Score).filter(models.Score.geom_id == geom_fid).update(
             {"plus": models.Score.minus + 1}
         )
