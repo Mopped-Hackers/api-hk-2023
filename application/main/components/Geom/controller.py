@@ -55,6 +55,32 @@ def minus(geom_fid, db):
         db.add(score)
         db.commit()
 
+def search_build(db, category):
+    if category == None or category == "all":
+        category = get_categories(db)
+
+    result = (
+            db.query(
+                models.Aminity.fid,
+                models.Aminity.aminity,
+                models.Aminity.lat,
+                models.Aminity.lon,
+                models.Aminity.name,
+                models.Aminity.type,
+                models.Aminity.addressline,
+                models.Aminity.info,
+                models.Aminity.build,
+            )
+            .filter(
+                and_(
+                    models.Aminity.aminity.in_(category)),
+                    models.Aminity.build == 1
+                )
+            .all()
+        )
+
+    points = [transform_point_for_fe(r) for r in result]
+    return points
 
 def search_all(db, category, vote):
     if category == None or category == "all":
