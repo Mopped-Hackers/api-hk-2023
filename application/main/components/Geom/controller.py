@@ -97,6 +97,19 @@ def search_all(db, category, vote):
     points = [transform_point_for_fe(r) for r in result]
     return points
 
+def get_color_by_aminity(aminity):
+    c2a = {
+        "Culture" : "red",
+    "Drug store" : "white",
+    "Green place" : "green",
+    "Hospital" : "yellow",
+    "Job" : "purple",
+    "School" : "blue",
+    "Shop" : "orange",
+    "Sport" : "pink",
+    "Transport" : "black"
+    }
+    return c2a.get(aminity,"black")
 
 def transform_point_for_fe(x):
     r = x
@@ -111,7 +124,8 @@ def transform_point_for_fe(x):
             "type": r[5],
             "addressline": r[6],
             "info": r[7],
-            "build": r[8]
+            "build": r[8],
+            "color" : get_color_by_aminity(r[1])
         },
         "geometry": {"type": "Point", "coordinates": [r[3], r[2]]},
     }
