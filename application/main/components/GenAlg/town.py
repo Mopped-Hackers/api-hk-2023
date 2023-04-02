@@ -23,6 +23,7 @@ def compare_towns(town1, town2):
     return town2 - town1
 
 def create_best_town(town):
+    print(f"BASE TOWN SCORE - {np.sum(town)}")
     for i in range(town.shape[1]):
         for j in range(town.shape[0]):
             if town[j][i] > 15:
@@ -55,7 +56,7 @@ def create_default_town() -> [[float]]:
         for i in range(max(0, lon - RANGE), min(lonMax-1, lon + RANGE)):
             for j in range(max(0, lat - RANGE), min(latMax-1, lat + RANGE)):
                 arr[j][i] += 0.5
-        arr[lat-1][lon-1] = 1
+        arr[lat][lon] = 1
     arr = np.flipud(arr)
     return arr
 

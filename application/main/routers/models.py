@@ -2,6 +2,13 @@ from pydantic import BaseModel, Field
 from typing import List, Union
 
 
+class AminitySearch(BaseModel):
+    name : str = Field()
+    count : int = Field()
+
+class predict_input(BaseModel):
+    radius : int = Field()
+    aminity : List[AminitySearch] = Field()
 
 class InnerObject(BaseModel):
     lat: float
