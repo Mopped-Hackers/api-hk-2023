@@ -16,6 +16,21 @@ def update_town(town, points):
     print(np.sum(town), np.sum(new_town))
     return new_town
 
+def update_town_2(town, points):
+    new_town = np.copy(town)
+
+    for point in points['points']:
+        # print(point[1])
+        lat = int(round(float(point['lat']) - DEFAULT_MIN_LAT,8) * 1000)
+        lon = int(round(float(point['lon']) - DEFAULT_MIN_LON,8) * 1000)
+        for i in range(max(0, lon - RANGE), min(DEFAULT_MAX_LON-1, lon + RANGE)):
+            for j in range(max(0, lat - RANGE), min(DEFAULT_MAX_LAT-1, lat + RANGE)):
+                if new_town[j][i] > 15:
+                    new_town[j][i] += 0.5
+        new_town[lat-1][lon-1] += 1
+    print(np.sum(town), np.sum(new_town))
+    return new_town
+
 def calculate_score_for_town(town):
     return round(np.sum(town)/BEST_TOWN_SCORE,4) * 100
 

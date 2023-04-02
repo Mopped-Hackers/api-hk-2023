@@ -9,6 +9,11 @@ def calculate(points):
     new_town_score = calculate_score_for_town(new_town)
     return new_town_score
 
+def calculate_2(points):
+    new_town = update_town_2(DEFAULT_TOWN, points)
+    new_town_score = calculate_score_for_town(new_town)
+    return new_town_score
+
 
 def get_default():
     return round(calculate_score_for_town(DEFAULT_TOWN), 2)
@@ -33,13 +38,19 @@ def predict(body):
         for c in range(count):
             list_of_aminities.append(name)
     arr, midPoints = request_func(toSelect, numFacilities, radius)
-    
+    points = []
+
     predicted_aminities = []
     ind = 0
     for i, j in enumerate(midPoints):
         for midpoint in midPoints[i]:
             lat, lon = transform_mid_points(midpoint)
-            print(ind)
+
+            points.append({
+                "lat" : lat,
+                "lon" : lon
+            })
+
             predicted_aminities.append(
                 {
                     "type": "Feature",
@@ -59,4 +70,12 @@ def predict(body):
                 }
             )
             ind += 1
-    return predicted_aminities
+
+    new_score = calculate_2({
+        "points" : points
+    })
+
+    return {
+        "points" : predicted_aminities,
+        "score" : new_score
+    }
