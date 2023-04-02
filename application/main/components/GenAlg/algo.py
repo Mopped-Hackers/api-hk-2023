@@ -205,7 +205,7 @@ def request_func(toSelect: [str], numFacilities: [int], radius: int):
     midPoints = list()
     for i in range(len(toSelect)):
         arr, selected_df = create_facility(toSelect[i])
-
+        arr = np.flipud(arr)
         pop = Population()
         pop.generate_population(arr)
 
