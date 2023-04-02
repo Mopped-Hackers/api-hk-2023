@@ -25,36 +25,14 @@ router = APIRouter()
 logger = logger_instance.get_logger(__name__)
 
 
-@router.post("/one")
+@router.post("/calculate")
 async def ai_path_1(
     body: AI_input_1,
-    request: Request,
-    response: Response,
 ):
-    logger.info(f"INCOMING REQUEST: {body.dict()}")
-    response = AI_controller.stuff()
+    response = AI_controller.calculate(body)
     return response
 
-
-@router.get("/two")
-async def ai_path_2(skip: int = 0, limit: int = 10):
-    return {"skip": skip, "limit": limit}
-
-
-@router.get("/three/{user_id}/items/{item_id}")
-async def ai_path_3(
-    user_id: int, item_id: str, q: Union[str, None] = None, short: bool = False
-):
-    item = {"item_id": item_id, "owner_id": user_id}
-    if q:
-        item.update({"q": q})
-    if not short:
-        item.update(
-            {"description": "This is an amazing item that has a long description"}
-        )
-    return item
-
-
-@router.get("/four")
-async def ai_path_2(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return {"skip": skip, "limit": limit}
+@router.get("/default-town")
+async def ai_path_1():
+    response = AI_controller.get_default()
+    return response
