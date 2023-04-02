@@ -200,6 +200,7 @@ def search(db, lat, lon, radius, category):
                     radius,
                 ),
                 models.Aminity.aminity.in_(category),
+                models.Aminity.build == 1,
             )
         )
         .all()
