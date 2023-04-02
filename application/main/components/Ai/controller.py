@@ -33,8 +33,10 @@ def predict(body):
     list_of_aminities = []
     for aminity in body["aminity"]:
         name = aminity.name
-        toSelect.append(name)
         count = aminity.count
+        if count == 0:
+            continue
+        toSelect.append(name)
         numFacilities.append(count)
         for c in range(count):
             list_of_aminities.append(name)
