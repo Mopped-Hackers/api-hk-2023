@@ -43,17 +43,23 @@ def predict(body):
 
     predicted_aminities = []
     ind = 0
+
+    from datetime import datetime
+
+    dt = datetime.now()    # for date and time
+
     for i, j in enumerate(midPoints):
         for midpoint in midPoints[i]:
             lat, lon = transform_mid_points(midpoint)
 
             points.append({"lat": lat, "lon": lon})
 
+            ts = datetime.timestamp(dt)  
             predicted_aminities.append(
                 {
                     "type": "Feature",
                     "properties": {
-                        "fid": "KULO",
+                        "fid": f"TESTIKULUS-{ts}",
                         "aminity": list_of_aminities[ind],
                         "lat": lat,
                         "lon": lon,

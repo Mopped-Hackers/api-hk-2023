@@ -8,6 +8,19 @@ from geoalchemy2.types import Geography
 from sqlalchemy import or_, and_, distinct, func
 
 
+def plus(geom_fid, db):
+    g = db.query(models.Score).filter(models.Score.geom_id == geom_fid).all()
+    if g:
+        db.query(models.Score).filter(models.Score.geom_id == geom_fid).update(
+            {"plus": models.Score.plus + 1}
+        )
+        db.commit()
+    else:
+        score = models.Score(geom_id=geom_fid, plus=1, minus=0)
+
+        db.add(score)
+        db.commit()
+
 def add(point, db):
     new_geom = models.Aminity(
         fid=point.fid,
@@ -23,25 +36,12 @@ def add(point, db):
 
     db.add(new_geom)
     db.commit()
+    plus(point.fid, db)
+
 
 
 def score(geom_fid, db):
     return db.query(models.Score).filter(models.Score.geom_id == geom_fid).first()
-
-
-def plus(geom_fid, db):
-    g = db.query(models.Score).filter(models.Score.geom_id == geom_fid).all()
-    if g:
-        db.query(models.Score).filter(models.Score.geom_id == geom_fid).update(
-            {"plus": models.Score.plus + 1}
-        )
-        db.commit()
-    else:
-        score = models.Score(geom_id=geom_fid, plus=1, minus=0)
-
-        db.add(score)
-        db.commit()
-
 
 def minus(geom_fid, db):
     g = db.query(models.Score).filter(models.Score.geom_id == geom_fid).all()
