@@ -47,8 +47,8 @@ class Mutation:
     def checkFacility(self, chromosome):
         reward1 = REWARD
         for gen in chromosome:
-            if gen > 15 and gen != 1:
-                reward1 -= 0.015
+            if gen > 18:
+                reward1 -= 0.2
         if reward1 < 0:
             reward1 = 0
 
@@ -57,8 +57,8 @@ class Mutation:
     def mutationClassic(self, chromosome: [int]) -> [int]:
         midPointsTog = list()
         for num in range(self.tries):
-            i = random.randint(RANGE, len(chromosome) - RANGE - 1)
-            j = random.randint(RANGE, len(chromosome[i]) - RANGE - 1)
+            i = random.randint(RANGE, len(chromosome) - RANGE - 8)
+            j = random.randint(RANGE, len(chromosome[i]) - RANGE - 8)
             midPointsTog.append([i, j])
             for k in range(RANGE):
                 chromosome[i - k][j - RANGE : j + RANGE] += self.checkFacility(
@@ -196,9 +196,9 @@ def request_func(toSelect: [str], numFacilities: [int], radius: int):
     global RANGE
     global REWARD
 
-    REWARD = 3
+    REWARD = 12
     if len(toSelect) == 1:
-        REWARD = 2
+        REWARD = 10
     RANGE = radius
 
     toVisual = list()
