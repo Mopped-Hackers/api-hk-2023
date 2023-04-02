@@ -60,23 +60,25 @@ def minus(geom_fid, db):
 def search_all(db, category, vote):
     if category == None or category == "all":
         category = get_categories(db)
-    
+
     if vote:
         result = (
-        db.query(
-            models.Aminity.fid,
-            models.Aminity.aminity,
-            models.Aminity.lat,
-            models.Aminity.lon,
-            models.Aminity.name,
-            models.Aminity.type,
-            models.Aminity.addressline,
-            models.Aminity.info,
-            models.Aminity.build,
+            db.query(
+                models.Aminity.fid,
+                models.Aminity.aminity,
+                models.Aminity.lat,
+                models.Aminity.lon,
+                models.Aminity.name,
+                models.Aminity.type,
+                models.Aminity.addressline,
+                models.Aminity.info,
+                models.Aminity.build,
+            )
+            .filter(
+                and_(models.Aminity.aminity.in_(category), models.Aminity.build == 0)
+            )
+            .all()
         )
-        .filter(and_(models.Aminity.aminity.in_(category), models.Aminity.build == 0))
-        .all()
-    )
     else:
         result = (
             db.query(
@@ -97,19 +99,21 @@ def search_all(db, category, vote):
     points = [transform_point_for_fe(r) for r in result]
     return points
 
+
 def get_color_by_aminity(aminity):
     c2a = {
-        "Culture" : "red",
-    "Drug store" : "white",
-    "Green place" : "green",
-    "Hospital" : "yellow",
-    "Job" : "purple",
-    "School" : "blue",
-    "Shop" : "orange",
-    "Sport" : "pink",
-    "Transport" : "black"
+        "Culture": "red",
+        "Drug store": "white",
+        "Green place": "green",
+        "Hospital": "yellow",
+        "Job": "purple",
+        "School": "blue",
+        "Shop": "orange",
+        "Sport": "pink",
+        "Transport": "black",
     }
-    return c2a.get(aminity,"black")
+    return c2a.get(aminity, "black")
+
 
 def transform_point_for_fe(x):
     r = x
@@ -125,7 +129,7 @@ def transform_point_for_fe(x):
             "addressline": r[6],
             "info": r[7],
             "build": r[8],
-            "color" : get_color_by_aminity(r[1])
+            "color": get_color_by_aminity(r[1]),
         },
         "geometry": {"type": "Point", "coordinates": [r[3], r[2]]},
     }
@@ -153,15 +157,15 @@ def search(db, lat, lon, radius, category):
     center_point = "POINT({lon} {lat})".format(lat=lat, lon=lon)
     result = (
         db.query(
-                models.Aminity.fid,
-                models.Aminity.aminity,
-                models.Aminity.lat,
-                models.Aminity.lon,
-                models.Aminity.name,
-                models.Aminity.type,
-                models.Aminity.addressline,
-                models.Aminity.info,
-                models.Aminity.build,
+            models.Aminity.fid,
+            models.Aminity.aminity,
+            models.Aminity.lat,
+            models.Aminity.lon,
+            models.Aminity.name,
+            models.Aminity.type,
+            models.Aminity.addressline,
+            models.Aminity.info,
+            models.Aminity.build,
         )
         .filter(
             and_(

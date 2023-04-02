@@ -9,6 +9,7 @@ def calculate(points):
     new_town_score = calculate_score_for_town(new_town)
     return new_town_score
 
+
 def calculate_2(points):
     new_town = update_town_2(DEFAULT_TOWN, points)
     new_town_score = calculate_score_for_town(new_town)
@@ -46,10 +47,7 @@ def predict(body):
         for midpoint in midPoints[i]:
             lat, lon = transform_mid_points(midpoint)
 
-            points.append({
-                "lat" : lat,
-                "lon" : lon
-            })
+            points.append({"lat": lat, "lon": lon})
 
             predicted_aminities.append(
                 {
@@ -71,11 +69,6 @@ def predict(body):
             )
             ind += 1
 
-    new_score = calculate_2({
-        "points" : points
-    })
+    new_score = calculate_2({"points": points})
 
-    return {
-        "points" : predicted_aminities,
-        "score" : round(new_score,4)
-    }
+    return {"points": predicted_aminities, "score": round(new_score, 4)}

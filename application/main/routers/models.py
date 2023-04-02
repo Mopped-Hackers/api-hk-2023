@@ -3,26 +3,32 @@ from typing import List, Union
 
 
 class AminitySearch(BaseModel):
-    name : str = Field()
-    count : int = Field()
+    name: str = Field()
+    count: int = Field()
+
 
 class predict_input(BaseModel):
-    radius : int = Field()
-    aminity : List[AminitySearch] = Field()
+    radius: int = Field()
+    aminity: List[AminitySearch] = Field()
+
 
 class InnerObject(BaseModel):
     lat: float
-    lon : float
+    lon: float
+
 
 class OuterObject(BaseModel):
     bar: List[InnerObject]
+
+
 # BASE MODELS
 ###################################################
 class AI_input_1(BaseModel):
     """
     Base AI Model
     """
-    points : List[InnerObject] = Field()
+
+    points: List[InnerObject] = Field()
 
 
 class DefaultGeom(BaseModel):

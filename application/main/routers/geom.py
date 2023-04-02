@@ -48,7 +48,7 @@ async def geom_add(point: DefaultGeom = None, db: Session = Depends(get_db)):
 
 @router.get("/all")
 async def geom_search_2(
-    vote: int = 0,category: List[str] = Query(None), db: Session = Depends(get_db)
+    vote: int = 0, category: List[str] = Query(None), db: Session = Depends(get_db)
 ):
     response = Geom_controller.search_all(db, category, vote)
     return response
